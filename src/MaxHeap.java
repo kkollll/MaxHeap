@@ -20,7 +20,8 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * 返回完全二叉树的数组表示中，一个索引所表示的元素的父节点的索引
-     * @param index
+     *
+     * @param index 索引
      * @return
      */
     private int parent(int index) {
@@ -32,6 +33,7 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * 左孩子
+     *
      * @param index
      * @return
      */
@@ -41,6 +43,7 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * 右孩子
+     *
      * @param index
      * @return
      */
