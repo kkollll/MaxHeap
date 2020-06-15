@@ -12,6 +12,18 @@ public class MaxHeap<E extends Comparable<E>> {
         data = new Array<>();
     }
 
+    /**
+     * Heapify 将一个数组变成堆
+     * @param arr
+     */
+    public MaxHeap(E[] arr) {
+
+        data = new Array<>(arr);
+        for (int i = parent(arr.length - 1); i >= 0; i--) {
+            data = siftDown(data, arr[i], i);
+        }
+    }
+
     public int size() {
         return data.getSize();
     }
@@ -114,6 +126,18 @@ public class MaxHeap<E extends Comparable<E>> {
         return data;
     }
 
+    /**
+     * 取出堆中最大元素，替换成元素e
+     *
+     * @return
+     */
+    public E replace(E e) {
+        E ret = data.getFirst();
+        data.set(0, e);
+        data = siftDown(data, e, 0);
+        return ret;
+    }
+
     public static void main(String[] args) {
         MaxHeap<Integer> maxHeap = new MaxHeap<>();
         Random random = new Random();
@@ -121,7 +145,14 @@ public class MaxHeap<E extends Comparable<E>> {
             maxHeap.add(random.nextInt(100));
         }
         System.out.println(maxHeap.data);
-        System.out.println(maxHeap.extractMax());
+//        System.out.println(maxHeap.extractMax());
+//        System.out.println(maxHeap.data);
+//        System.out.println(maxHeap.replace(3));
+//        System.out.println(maxHeap.data);
+        Integer[] arr = {1, 15, 16, 18, 2, 14, 15, 9, 7};
+
+        maxHeap = new MaxHeap<>(arr);
         System.out.println(maxHeap.data);
+
     }
 }

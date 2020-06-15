@@ -5,15 +5,22 @@ public class Array<E> {
 
     /**
      * 构造函数，传入数组容量capacity构造Array
+     *
      * @param capacity 数组容量
      */
     public Array(int capacity) {
-        data = (E[])new Object[capacity];
+        data = (E[]) new Object[capacity];
         size = 0;
     }
 
+    public Array(E[] arr) {
+        data = (E[]) new Object[arr.length];
+        System.arraycopy(arr, 0, data, 0, arr.length);
+        size = arr.length;
+    }
+
     /**
-     *  默认容量为10
+     * 默认容量为10
      */
     public Array() {
         this(10);
@@ -42,15 +49,17 @@ public class Array<E> {
 
     /**
      * 向数组末尾添加元素
+     *
      * @param e
      */
     public void addLast(E e) {
 
-       add(size, e);
+        add(size, e);
     }
 
     /**
      * 向数组开始添加元素
+     *
      * @param e
      */
     public void addFirst(E e) {
@@ -59,8 +68,9 @@ public class Array<E> {
 
     /**
      * 在index位置插入元素e
+     *
      * @param index 位置
-     * @param e 元素
+     * @param e     元素
      */
     public void add(int index, E e) {
 
@@ -79,16 +89,18 @@ public class Array<E> {
 
     /**
      * 扩容数组
+     *
      * @param newCapacity
      */
     private void resize(int newCapacity) {
-        E[] newData = (E[])new Object[newCapacity];
+        E[] newData = (E[]) new Object[newCapacity];
         System.arraycopy(data, 0, newData, 0, size);
         data = newData;
     }
 
     /**
      * 获取索引位置元素
+     *
      * @param index
      * @return
      */
@@ -109,6 +121,7 @@ public class Array<E> {
 
     /**
      * 修改索引位置元素
+     *
      * @param index
      * @return
      */
@@ -121,6 +134,7 @@ public class Array<E> {
 
     /**
      * 查找数组中是否存在元素e
+     *
      * @param e
      * @return
      */
@@ -135,6 +149,7 @@ public class Array<E> {
 
     /**
      * 返回元素下标，找不到返回-1
+     *
      * @param e
      * @return
      */
@@ -149,6 +164,7 @@ public class Array<E> {
 
     /**
      * 删除index位置元素
+     *
      * @param index
      * @return 删除的元素
      */
@@ -171,6 +187,7 @@ public class Array<E> {
 
     /**
      * 删除首元素
+     *
      * @return 删除的元素
      */
     public E removeFirst() {
@@ -179,6 +196,7 @@ public class Array<E> {
 
     /**
      * 删除末元素
+     *
      * @return 删除的元素
      */
     public E removeLast() {
@@ -187,6 +205,7 @@ public class Array<E> {
 
     /**
      * 删除特定元素
+     *
      * @param e
      * @return
      */
@@ -199,6 +218,7 @@ public class Array<E> {
         }
         return false;
     }
+
     @Override
     public String toString() {
 
