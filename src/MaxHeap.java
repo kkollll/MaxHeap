@@ -70,10 +70,10 @@ public class MaxHeap<E extends Comparable<E>> {
         if (e.compareTo((E) data.get(parent(i))) > 0) {
             data.set(i, data.get(parent(i)));
             data.set(parent(i), e);
+            return siftUp(data, e, parent(i));
         } else {
             return data;
         }
-        return siftUp(data, e, parent(i));
     }
 
     /**
@@ -87,15 +87,14 @@ public class MaxHeap<E extends Comparable<E>> {
         }
         E ret = data.getFirst();
         data.set(0, data.get(size() - 1));
+        E e = data.getFirst();
         data.remove(size() - 1);
-        data = siftDown(data, ret, 0);
+        data = siftDown(data, e, 0);
         return ret;
     }
 
     private Array<E> siftDown(Array<E> data, E e, int i) {
-        if (i >= size() - 1) {
-            return data;
-        }
+
         if (leftChild(i) <= size() - 1 && e.compareTo(data.get(leftChild(i))) < 0) {
             if (rightChild(i) <= size() - 1 && data.get(leftChild(i)).compareTo(data.get(rightChild(i))) < 0) {
                 data.set(i, data.get(rightChild(i)));
@@ -106,6 +105,10 @@ public class MaxHeap<E extends Comparable<E>> {
                 data.set(leftChild(i), e);
                 data = siftDown(data, e, leftChild(i));
             }
+        } else if (rightChild(i) <= size() - 1 && e.compareTo(data.get(rightChild(i))) < 0) {
+            data.set(i, data.get(rightChild(i)));
+            data.set(rightChild(i), e);
+            data = siftDown(data, e, rightChild(i));
         }
 
         return data;
@@ -114,7 +117,7 @@ public class MaxHeap<E extends Comparable<E>> {
     public static void main(String[] args) {
         MaxHeap<Integer> maxHeap = new MaxHeap<>();
         Random random = new Random();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             maxHeap.add(random.nextInt(100));
         }
         System.out.println(maxHeap.data);
