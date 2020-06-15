@@ -14,13 +14,14 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * Heapify 将一个数组变成堆
+     *
      * @param arr
      */
     public MaxHeap(E[] arr) {
 
         data = new Array<>(arr);
         for (int i = parent(arr.length - 1); i >= 0; i--) {
-            data = siftDown(data, arr[i], i);
+            data = shiftDown(data, arr[i], i, size());
         }
     }
 
@@ -88,6 +89,28 @@ public class MaxHeap<E extends Comparable<E>> {
         }
     }
 
+    public void sortData() {
+        sortData(data, size() - 1);
+    }
+
+    /**
+     * 堆排序 这里如果也用递归会造成栈溢出
+     *
+     * @param data
+     * @param heapIndex
+     * @return
+     */
+    private void sortData(Array<E> data, int heapIndex) {
+        while (heapIndex > 0) {
+            // swap 将最大值和最后一个元素交换
+            E e = data.getFirst();
+            data.set(0, data.get(heapIndex));
+            data.set(heapIndex, e);
+            data = shiftDown(data, data.getFirst(), 0, heapIndex);
+            heapIndex--;
+        }
+    }
+
     /**
      * 取出队中最大元素
      *
@@ -101,26 +124,40 @@ public class MaxHeap<E extends Comparable<E>> {
         data.set(0, data.get(size() - 1));
         E e = data.getFirst();
         data.remove(size() - 1);
-        data = siftDown(data, e, 0);
+        data = shiftDown(data, e, 0, size());
         return ret;
     }
 
-    private Array<E> siftDown(Array<E> data, E e, int i) {
+    private Array<E> shiftDown(Array<E> data, E e, int i, int k) {
 
-        if (leftChild(i) <= size() - 1 && e.compareTo(data.get(leftChild(i))) < 0) {
-            if (rightChild(i) <= size() - 1 && data.get(leftChild(i)).compareTo(data.get(rightChild(i))) < 0) {
+
+//        while (leftChild(i) < k) {
+//            int j = leftChild(i);
+//            if (j + 1 < k && data.get(j).compareTo(data.get(j + 1)) < 0) {
+//                j = rightChild(i);
+//            }
+//            if (e.compareTo(data.get(j)) >= 0) {
+//                break;
+//            }
+//            data.set(i, data.get(j));
+//            data.set(j, e);
+//            i = j;
+//        }
+
+        if (leftChild(i) < k && e.compareTo(data.get(leftChild(i))) < 0) {
+            if (rightChild(i) < k && data.get(leftChild(i)).compareTo(data.get(rightChild(i))) < 0) {
                 data.set(i, data.get(rightChild(i)));
                 data.set(rightChild(i), e);
-                data = siftDown(data, e, rightChild(i));
+                data = shiftDown(data, e, rightChild(i), k);
             } else {
                 data.set(i, data.get(leftChild(i)));
                 data.set(leftChild(i), e);
-                data = siftDown(data, e, leftChild(i));
+                data = shiftDown(data, e, leftChild(i), k);
             }
-        } else if (rightChild(i) <= size() - 1 && e.compareTo(data.get(rightChild(i))) < 0) {
+        } else if (rightChild(i) < k && e.compareTo(data.get(rightChild(i))) < 0) {
             data.set(i, data.get(rightChild(i)));
             data.set(rightChild(i), e);
-            data = siftDown(data, e, rightChild(i));
+            data = shiftDown(data, e, rightChild(i), k);
         }
 
         return data;
@@ -134,25 +171,24 @@ public class MaxHeap<E extends Comparable<E>> {
     public E replace(E e) {
         E ret = data.getFirst();
         data.set(0, e);
-        data = siftDown(data, e, 0);
+        data = shiftDown(data, e, 0, size());
         return ret;
     }
 
     public static void main(String[] args) {
-        MaxHeap<Integer> maxHeap = new MaxHeap<>();
+        int n = 10000000;
         Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            maxHeap.add(random.nextInt(100));
+        MaxHeap<Integer> maxHeap = new MaxHeap(n);
+        for (int i = 0; i < n; i++) {
+            maxHeap.add(random.nextInt(Integer.MAX_VALUE));
+            ;
         }
-        System.out.println(maxHeap.data);
-//        System.out.println(maxHeap.extractMax());
-//        System.out.println(maxHeap.data);
-//        System.out.println(maxHeap.replace(3));
-//        System.out.println(maxHeap.data);
-        Integer[] arr = {1, 15, 16, 18, 2, 14, 15, 9, 7};
-
-        maxHeap = new MaxHeap<>(arr);
-        System.out.println(maxHeap.data);
-
+        maxHeap.sortData();
+        for (int i = 1; i < n; i++) {
+            if (maxHeap.data.get(i - 1) > maxHeap.data.get(i)) {
+                throw new IllegalArgumentException("Error.");
+            }
+        }
+        System.out.println("Sort Complete.");
     }
 }
