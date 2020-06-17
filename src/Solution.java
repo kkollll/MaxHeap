@@ -19,14 +19,16 @@ public class Solution {
                 (a, b) -> treeMap.get(a) - treeMap.get(b)
         );
 
-        for (int key : treeMap.keySet()) {
-            if (queue.size() < k) {
-                queue.add(key);
-            } else if (treeMap.get(key) > treeMap.get(queue.peek())) {
-                queue.remove();
-                queue.add(key);
+        treeMap.forEach(
+            (key, value) -> {
+                if (queue.size() < k) {
+                    queue.add(key);
+                } else if (value > treeMap.get(queue.peek())) {
+                    queue.remove();
+                    queue.add(key);
+                }
             }
-        }
+        );
 
         int size = queue.size();
         int[] arr = new int[size];
@@ -39,12 +41,12 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] arr = {1,1,1,2,2,3};
+        int[] arr = {1, 1, 1, 2, 2, 3};
         arr = solution.topKFrequent(arr, 2);
         ArrayList<Integer> list = new ArrayList<>();
         for (int i : arr) {
             list.add(i);
         }
-        System.out.println(list);
+        list.forEach(System.out::println);
     }
 }
