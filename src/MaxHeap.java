@@ -25,6 +25,10 @@ public class MaxHeap<E extends Comparable<E>> {
         }
     }
 
+    public E get(int index) {
+        return data.get(index);
+    }
+
     public int size() {
         return data.getSize();
     }
